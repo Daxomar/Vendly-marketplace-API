@@ -1,0 +1,38 @@
+# Local development services: MongoDB (as a replica set, needed for
+# transactions) and Redis. The API itself runs on your machine with
+# `npm run dev`, so you get hot reload and normal debugging.
+#
+#   docker compose up -d     start both in the background
+#   docker compose down      stop them (data is kept)
+#   docker compose down -v   stop and DELETE all local data
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: vendly-mongo
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--quiet"]
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    # The healthcheck also turns the single node into a replica set the
+    # first time it runs (rs.initiate), so there is no extra init container.
+    healthcheck:
+      test: >
+        mongosh --quiet --eval "try { rs.status().ok } catch (e) { rs.initiate({_id: 'rs0', members: [{_id: 0, host: 'localhost:27017'}]}).ok }"
+      interval: 5s
+      timeout: 10s
+      retries: 20
+      start_period: 5s
+
+  redis:
+    image: redis:7-alpine
+    container_name: vendly-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mongo_data:
+  redis_data:
