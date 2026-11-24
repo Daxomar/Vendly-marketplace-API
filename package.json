@@ -1,0 +1,49 @@
+{
+  "name": "vendly-marketplace-api",
+  "version": "0.1.0",
+  "description": "Vendly marketplace API: vendors, resellers, customers",
+  "scripts": {
+    "dev": "nodemon --watch src --ext ts --exec tsx src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "seed": "tsx src/scripts/seed.ts",
+    "gen:secret": "node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Daxomar/vendly-marketplace-api.git"
+  },
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Daxomar/vendly-marketplace-api/issues"
+  },
+  "homepage": "https://github.com/Daxomar/vendly-marketplace-api#readme",
+  "dependencies": {
+    "@sendgrid/mail": "^8.1.6",
+    "better-auth": "^1.7.27",
+    "cloudinary": "^2.11.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.5",
+    "ioredis": "^6.1.0",
+    "mongoose": "^9.13.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.6.6",
+    "nodemon": "^3.1.14",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  }
+}
